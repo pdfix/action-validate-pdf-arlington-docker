@@ -20,7 +20,7 @@
           "title": "HTML Validation Report",
           "name": "html_validation_report_flavour",
           "desc": "Generate a PDF validation report in HTML format",
-          "program": "run.sh --flavour \"${flavour}\" --format html --input \"${input_pdf}\" --output \"${output_html}\""
+          "program": "docker run --platform linux/amd64 -v \"${working_directory}:/data\" --rm pdfix/arlington-pdf-model:latest validate --flavour \"${flavour}\" --format html --input \"${input_pdf}\" --output \"${output_html}\""
         },
         {
           "platform": [
@@ -29,7 +29,7 @@
           "title": "HTML Validation Report",
           "name": "html_validation_report_flavour",
           "desc": "Generate a PDF validation report in HTML format",
-          "program": "run.cmd --flavour \"${flavour}\" --format html --input \"${input_pdf}\" --output \"${output_html}\""
+          "program": "docker run --platform linux/amd64 -v \"${working_directory}:/data\" --rm pdfix/arlington-pdf-model:latest validate --flavour \"${flavour}\" --format html --input \"${input_pdf}\" --output \"${output_html}\""
         },
         {
           "platform": [
@@ -39,7 +39,7 @@
           "title": "XML Validation Report",
           "name": "xml_validation_report_flavour",
           "desc": "Generate a PDF validation report in XML format",
-          "program": "run.sh --flavour \"${flavour}\" --format xml --input \"${input_pdf}\" --output \"${output_xml}\""
+          "program": "docker run --platform linux/amd64 -v \"${working_directory}:/data\" --rm pdfix/arlington-pdf-model:latest validate --flavour \"${flavour}\" --format xml --input \"${input_pdf}\" --output \"${output_xml}\""
         },
         {
           "platform": [
@@ -48,7 +48,7 @@
           "title": "XML Validation Report",
           "name": "xml_validation_report_flavour",
           "desc": "Generate a PDF validation report in XML format",
-          "program": "run.cmd --flavour \"${flavour}\" --format xml --input \"${input_pdf}\" --output \"${output_xml}\""
+          "program": "docker run --platform linux/amd64 -v \"${working_directory}:/data\" --rm pdfix/arlington-pdf-model:latest validate --flavour \"${flavour}\" --format xml --input \"${input_pdf}\" --output \"${output_xml}\""
         }                
       ],
       "args": [
