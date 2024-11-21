@@ -10,7 +10,7 @@ on:
 
 env:
   DOCKER_HUB_NAMESPACE: pdfix
-  DOCKER_HUB_REPOSITORY: arlington
+  DOCKER_HUB_REPOSITORY: arlington-pdf-model
 
 jobs:
   push_to_registry:

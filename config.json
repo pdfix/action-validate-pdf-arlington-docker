@@ -1,10 +1,10 @@
 {
   "actions": [
     {
-      "title": "PDF/UA Validation VeraPDF",
-      "name": "validation_report_arlington",
-      "desc": "An action that validates PDFs using veraPDF, the industry-supported open-source PDF/UA validator, and saves results as HTML, XML, or JSON reports.",
-      "icon": "bug_report",
+      "title": "Arlington PDF Model",
+      "name": "arlington_pdf_model",
+      "desc": "An action that automatically checks grammar in PDF using the Arlington PDF Model. The verification output is a report containing all of the grammatical errors contained in your PDF.",
+      "icon": "arlington",
       "version": {
         "major": 1,
         "minor": 0,
