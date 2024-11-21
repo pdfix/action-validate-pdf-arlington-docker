@@ -4,13 +4,14 @@ A Docker image that automatically checks grammar in PDF using the [Arlington PDF
 
 ## Table of Contents
 
-- [PDF Validation Docker App using VeraPDF](#pdf-arlington-docker-app-using-verapdf)
+- [Arlington PDF Model](#arlington-pdf-model)
+  - [Table of Contents](#table-of-contents)
   - [Getting Started](#getting-started)
   - [Run using Command Line Interface](#run-using-command-line-interface)
-  - [Validation Settings and Configuration](#arlington-settings-and-configuration)
+  - [Run OCR using REST API](#run-ocr-using-rest-api)
     - [Exporting Configuration for Integration](#exporting-configuration-for-integration)
   - [License](#license)
-  - [Help & Support](#help--support)
+  - [Help \& Support](#help--support)
 
 ## Getting Started
 
