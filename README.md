@@ -1,6 +1,6 @@
-# PDF Validation Docker App using VeraPDF
+# Arlington PDF Model
 
-This Docker application is designed to validate PDF files for compliance with the PDF/A standard using VeraPDF. It allows users to easily perform PDF arlington with customizable options and can be executed via command-line arguments.
+A Docker image that automatically checks grammar in PDF using the [Arlington PDF Model](https://github.com/pdf-association/arlington-pdf-model). The verification output is a report containing all of the grammatical errors contained in your PDF.
 
 ## Table of Contents
 
