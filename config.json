@@ -1,15 +1,11 @@
 {
   "actions": [
     {
-      "title": "Arlington PDF Model",
+      "title": "Validate PDF with Arlington PDF Model",
       "name": "arlington_pdf_model",
       "desc": "An action that automatically checks grammar in PDF using the Arlington PDF Model. The verification output is a report containing all of the grammatical errors contained in your PDF.",
       "icon": "arlington",
-      "version": {
-        "major": 1,
-        "minor": 0,
-        "patch": 0
-      },
+      "version": "v1.0.0",
       "category": "Validation",
       "configurations": [
         {
@@ -20,7 +16,7 @@
           "title": "HTML Validation Report",
           "name": "html_validation_report",
           "desc": "Generate a PDF validation report in HTML format",
-          "program": "docker run --platform linux/amd64 -v \"${working_directory}:/data\" --rm pdfix/arlington-pdf-model:latest validate --format html --input \"/data/${input_pdf}\" --output \"/data/${output_html}\""
+          "program": "docker run --platform linux/amd64 -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format html --input \"/data/${input_pdf}\" --output \"/data/${output_html}\""
         },
         {
           "platform": [
@@ -29,7 +25,7 @@
           "title": "HTML Validation Report",
           "name": "html_validation_report",
           "desc": "Generate a PDF validation report in HTML format",
-          "program": "docker run --platform linux/amd64 -v \"${working_directory}:/data\" --rm pdfix/arlington-pdf-model:latest validate --format html --input \"/data/${input_pdf}\" --output \"/data/${output_html}\""
+          "program": "docker run --platform linux/amd64 -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format html --input \"/data/${input_pdf}\" --output \"/data/${output_html}\""
         },
         {
           "platform": [
@@ -39,7 +35,7 @@
           "title": "XML Validation Report",
           "name": "xml_validation_report",
           "desc": "Generate a PDF validation report in XML format",
-          "program": "docker run --platform linux/amd64 -v \"${working_directory}:/data\" --rm pdfix/arlington-pdf-model:latest validate --format xml --input \"/data/${input_pdf}\" --output \"/data/${output_xml}\""
+          "program": "docker run --platform linux/amd64 -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format xml --input \"/data/${input_pdf}\" --output \"/data/${output_xml}\""
         },
         {
           "platform": [
@@ -48,7 +44,7 @@
           "title": "XML Validation Report",
           "name": "xml_validation_report",
           "desc": "Generate a PDF validation report in XML format",
-          "program": "docker run --platform linux/amd64 -v \"${working_directory}:/data\" --rm pdfix/arlington-pdf-model:latest validate --format xml --input \"/data/${input_pdf}\" --output \"/data/${output_xml}\""
+          "program": "docker run --platform linux/amd64 -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format xml --input \"/data/${input_pdf}\" --output \"/data/${output_xml}\""
         }                
       ],
       "args": [
