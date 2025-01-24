@@ -13,7 +13,7 @@
             "debian",
             "macos"
           ],
-          "title": "HTML Validation Report",
+          "title": "Generate Arlington HTML Report",
           "name": "html_validation_report",
           "desc": "Generate a PDF validation report in HTML format",
           "program": "docker run --platform linux/amd64 -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format html --input \"/data/${input_pdf}\" --output \"/data/${output_html}\""
@@ -22,7 +22,7 @@
           "platform": [
             "windows"
           ],
-          "title": "HTML Validation Report",
+          "title": "Generate Arlington HTML Report",
           "name": "html_validation_report",
           "desc": "Generate a PDF validation report in HTML format",
           "program": "docker run --platform linux/amd64 -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format html --input \"/data/${input_pdf}\" --output \"/data/${output_html}\""
@@ -32,7 +32,7 @@
             "debian",
             "macos"
           ],
-          "title": "XML Validation Report",
+          "title": "Generate Arlington XML Report",
           "name": "xml_validation_report",
           "desc": "Generate a PDF validation report in XML format",
           "program": "docker run --platform linux/amd64 -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format xml --input \"/data/${input_pdf}\" --output \"/data/${output_xml}\""
@@ -41,7 +41,7 @@
           "platform": [
             "windows"
           ],
-          "title": "XML Validation Report",
+          "title": "Generate Arlington XML Report",
           "name": "xml_validation_report",
           "desc": "Generate a PDF validation report in XML format",
           "program": "docker run --platform linux/amd64 -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format xml --input \"/data/${input_pdf}\" --output \"/data/${output_xml}\""
