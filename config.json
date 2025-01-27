@@ -1,90 +1,82 @@
 {
-  "actions": [
-    {
-      "title": "Validate PDF with Arlington PDF Model",
-      "name": "arlington_pdf_model",
-      "desc": "An action that automatically checks grammar in PDF using the Arlington PDF Model. The verification output is a report containing all of the grammatical errors contained in your PDF.",
-      "icon": "arlington",
-      "version": "v1.0.0",
-      "category": "Validation",
-      "configurations": [
+    "actions": [
         {
-          "platform": [
-            "debian",
-            "macos"
-          ],
-          "title": "Generate Arlington HTML Report",
-          "name": "html_validation_report",
-          "desc": "Generate a PDF validation report in HTML format",
-          "program": "docker run --platform linux/amd64 -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format html --input \"/data/${input_pdf}\" --output \"/data/${output_html}\""
+            "title": "Generate Arlington HTML Report",
+            "name": "arlington_html_validation_report",
+            "desc": "Automatically check grammar in PDF using the Arlington PDF Model. The verification output is a report containing all of the grammatical errors contained in your PDF.",
+            "icon": "arlington",
+            "version": "v1.0.0",
+            "category": "Validation",
+            "program": "docker run --platform linux/amd64 -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format html --input \"/data/${input_pdf}\" --output \"/data/${output_html}\"",
+            "args": [
+                {
+                    "name": "max_failures",
+                    "desc": "Limit of checked fails. If fails reached limit, validation stops.",
+                    "type": "int",
+                    "value": "-1"
+                },
+                {
+                    "name": "max_failures_displayed",
+                    "desc": "Maximum fails to displayed. If -1, displayed all.",
+                    "type": "int",
+                    "value": "-1"
+                },
+                {
+                    "name": "input_pdf",
+                    "desc": "Path to PDF document you want to proccess",
+                    "flags": 2,
+                    "ext": "pdf",
+                    "type": "file_path",
+                    "value": ""
+                },
+                {
+                    "name": "output_html",
+                    "desc": "Path to validation report output",
+                    "flags": 4,
+                    "ext": "html",
+                    "type": "file_path",
+                    "value": ""
+                }
+            ]
         },
         {
-          "platform": [
-            "windows"
-          ],
-          "title": "Generate Arlington HTML Report",
-          "name": "html_validation_report",
-          "desc": "Generate a PDF validation report in HTML format",
-          "program": "docker run --platform linux/amd64 -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format html --input \"/data/${input_pdf}\" --output \"/data/${output_html}\""
-        },
-        {
-          "platform": [
-            "debian",
-            "macos"
-          ],
-          "title": "Generate Arlington XML Report",
-          "name": "xml_validation_report",
-          "desc": "Generate a PDF validation report in XML format",
-          "program": "docker run --platform linux/amd64 -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format xml --input \"/data/${input_pdf}\" --output \"/data/${output_xml}\""
-        },
-        {
-          "platform": [
-            "windows"
-          ],
-          "title": "Generate Arlington XML Report",
-          "name": "xml_validation_report",
-          "desc": "Generate a PDF validation report in XML format",
-          "program": "docker run --platform linux/amd64 -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format xml --input \"/data/${input_pdf}\" --output \"/data/${output_xml}\""
-        }                
-      ],
-      "args": [
-        {
-          "name": "max_failures",
-          "desc": "Limit of checked fails. If fails reached limit, validation stops.",
-          "type": "int",
-          "value": "-1"
-        },
-        {
-          "name": "max_failures_displayed",
-          "desc": "Maximum fails to displayed. If -1, displayed all.",
-          "type": "int",
-          "value": "-1"
-        },
-        {
-          "name": "input_pdf",
-          "desc": "Path to PDF document you want to proccess",
-          "flags": 2,
-          "ext": "pdf",
-          "type": "file_path",
-          "value": ""
-        },
-        {
-          "name": "output_xml",
-          "desc": "Path to validation report output",
-          "flags": 4,
-          "ext": "xml",
-          "type": "file_path",
-          "value": ""
-        },
-        {
-          "name": "output_html",
-          "desc": "Path to validation report output",
-          "flags": 4,
-          "ext": "html",
-          "type": "file_path",
-          "value": ""
+            "title": "Generate Arlington XML Report",
+            "name": "arlington_xml_validation_report",
+            "desc": "Automatically check grammar in PDF using the Arlington PDF Model. The verification output is a report containing all of the grammatical errors contained in your PDF.",
+            "icon": "arlington",
+            "version": "v1.0.0",
+            "category": "Validation",
+            "program": "docker run --platform linux/amd64 -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format xml --input \"/data/${input_pdf}\" --output \"/data/${output_xml}\"",
+            "args": [
+                {
+                    "name": "max_failures",
+                    "desc": "Limit of checked fails. If fails reached limit, validation stops.",
+                    "type": "int",
+                    "value": "-1"
+                },
+                {
+                    "name": "max_failures_displayed",
+                    "desc": "Maximum fails to displayed. If -1, displayed all.",
+                    "type": "int",
+                    "value": "-1"
+                },
+                {
+                    "name": "input_pdf",
+                    "desc": "Path to PDF document you want to proccess",
+                    "flags": 2,
+                    "ext": "pdf",
+                    "type": "file_path",
+                    "value": ""
+                },
+                {
+                    "name": "output_xml",
+                    "desc": "Path to validation report output",
+                    "flags": 4,
+                    "ext": "xml",
+                    "type": "file_path",
+                    "value": ""
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }
