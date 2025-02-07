@@ -1,11 +1,12 @@
 {
+    "version": "v0.0.0",    
     "actions": [
         {
             "title": "Generate Arlington HTML Report",
             "name": "arlington_html_validation_report",
             "desc": "Automatically checks grammar in a PDF using the Arlington PDF Model",
             "icon": "arlington_html",
-            "version": "v1.0.0",
+            "version": "v0.0.0",
             "category": "Validation",
             "program": "docker run --platform linux/amd64 -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format html --input \"/data/${input_pdf}\" --output \"/data/${output_html}\"",
             "args": [
@@ -44,7 +45,7 @@
             "name": "arlington_xml_validation_report",
             "desc": "Automatically checks grammar in a PDF using the Arlington PDF Model",
             "icon": "arlington_xml",
-            "version": "v1.0.0",
+            "version": "v0.0.0",
             "category": "Validation",
             "program": "docker run --platform linux/amd64 -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format xml --input \"/data/${input_pdf}\" --output \"/data/${output_xml}\"",
             "args": [
