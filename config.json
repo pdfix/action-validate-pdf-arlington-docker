@@ -1,5 +1,6 @@
 {
-    "version": "v0.0.0",    
+    "name": "Validate PDF Arlington",
+    "version": "v0.0.0",
     "actions": [
         {
             "title": "Generate Arlington HTML Report",
