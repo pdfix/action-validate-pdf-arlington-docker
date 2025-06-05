@@ -164,10 +164,7 @@ def main():
         help="Extract config file for integration",
     )
     set_arguments(
-        config_subparser,
-        ["output"],
-        False,
-        "Output to save the config JSON file. Application output is used if not provided.",
+        config_subparser, ["output"], "Output to save the config JSON file. Application output is used if not provided."
     )
     config_subparser.set_defaults(func=run_config_subcommand)
 
@@ -177,10 +174,7 @@ def main():
         help="Run validation of PDF document",
     )
     set_arguments(
-        validate_subparser,
-        ["input", "output", "maxfailuresdisplayed", "format"],
-        True,
-        "The output validation file",
+        validate_subparser, ["input", "output", "maxfailuresdisplayed", "format"], "The output validation file"
     )
     validate_subparser.set_defaults(func=run_validation_subcommand)
 
