@@ -6,6 +6,8 @@ import traceback
 from pathlib import Path
 from typing import Optional
 
+from image_update import DockerImageContainerUpdateChecker
+
 
 def set_arguments(
     parser: argparse.ArgumentParser,
@@ -187,16 +189,20 @@ def main():
         print("Failed to parse arguments. Please check the usage and try again.", file=sys.stderr)
         sys.exit(e.code)
 
-    if hasattr(args, "func"):
-        # Run subcommand
-        try:
-            args.func(args)
-        except Exception as e:
-            print(traceback.format_exc(), file=sys.stderr)
-            print(f"Failed to run the program: {e}", file=sys.stderr)
-            sys.exit(1)
-    else:
-        parser.print_help()
+    # Update of docker image checker
+    update_checker = DockerImageContainerUpdateChecker()
+    update_checker.check_for_image_updates()
+
+    # if hasattr(args, "func"):
+    #     # Run subcommand
+    #     try:
+    #         args.func(args)
+    #     except Exception as e:
+    #         print(traceback.format_exc(), file=sys.stderr)
+    #         print(f"Failed to run the program: {e}", file=sys.stderr)
+    #         sys.exit(1)
+    # else:
+    #     parser.print_help()
 
 
 if __name__ == "__main__":
