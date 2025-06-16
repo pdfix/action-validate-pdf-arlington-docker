@@ -3,9 +3,9 @@
     "version": "v0.0.0",
     "actions": [
         {
-            "title": "Generate Arlington HTML Report",
-            "name": "pdfix_arlington_html_validation_report",
-            "desc": "Automatically checks grammar in a PDF using the Arlington PDF Model",
+            "title": "Validate PDF Grammar to HTML (Arlington)",
+            "name": "pdfix_validate_pdf_grammar_to_html_arlington",
+            "desc": "Automatically checks grammar in a PDF using the Arlington PDF Model.",
             "icon": "arlington_html",
             "version": "v0.0.0",
             "category": "Validation",
@@ -42,9 +42,9 @@
             ]
         },
         {
-            "title": "Generate Arlington XML Report",
-            "name": "pdfix_arlington_xml_validation_report",
-            "desc": "Automatically checks grammar in a PDF using the Arlington PDF Model",
+            "title": "Validate PDF Grammar to XML (Arlington)",
+            "name": "pdfix_validate_pdf_grammar_to_xml_arlington",
+            "desc": "Automatically checks grammar in a PDF using the Arlington PDF Model.",
             "icon": "arlington_xml",
             "version": "v0.0.0",
             "category": "Validation",
