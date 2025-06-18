@@ -108,9 +108,10 @@ def run_validation(
             format,
         ]
 
-        command.append(input_file)
+        command_to_run = " ".join(command)
+        command_to_run += f' "{input_file}"'
 
-        stdout, stderr = run_subprocess(command)
+        stdout, stderr = run_subprocess(command_to_run)
 
         if output_file:
             with open(output_file, "w+", encoding="utf-8") as out:
@@ -125,7 +126,7 @@ def run_validation(
         raise Exception(f"Failed to run validation: {e}")
 
 
-def run_subprocess(command: list) -> tuple:
+def run_subprocess(command: str) -> tuple:
     """
     Execute a shell command and capture its output and return code.
 

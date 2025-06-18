@@ -26,7 +26,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY config.json /usr/validation/
 # Copy the source code
 COPY src/ /usr/validation/src/
-# Copy VeraPDF CLI program
+# Copy Arlington veraPDF CLI program
 COPY res/ /usr/validation/res/
 
 
