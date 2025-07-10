@@ -5,10 +5,11 @@
         {
             "title": "Validate PDF Grammar to HTML (Arlington)",
             "name": "pdfix_validate_pdf_grammar_to_html_arlington",
-            "desc": "Automatically checks grammar in a PDF using the Arlington PDF Model.",
-            "icon": "arlington_html",
+            "desc": "Automatically checks grammar in a PDF using the Arlington PDF Model [Local]",
             "version": "v0.0.0",
+            "icon": "arlington_html",
             "category": "Validation",
+            "local": "True",
             "program": "docker run --platform linux/amd64 -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format html --input \"/data/${input_pdf}\" --output \"/data/${output_html}\"",
             "args": [
                 {
@@ -44,10 +45,11 @@
         {
             "title": "Validate PDF Grammar to XML (Arlington)",
             "name": "pdfix_validate_pdf_grammar_to_xml_arlington",
-            "desc": "Automatically checks grammar in a PDF using the Arlington PDF Model.",
-            "icon": "arlington_xml",
+            "desc": "Automatically checks grammar in a PDF using the Arlington PDF Model [Local]",
             "version": "v0.0.0",
+            "icon": "arlington_xml",
             "category": "Validation",
+            "local": "True",
             "program": "docker run --platform linux/amd64 -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format xml --input \"/data/${input_pdf}\" --output \"/data/${output_xml}\"",
             "args": [
                 {
