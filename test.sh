@@ -71,6 +71,7 @@ if [ -f "$(pwd)/$TEMPORARY_DIRECTORY/air_quality.xml" ]; then
 else
     error "validate pdf->xml failed on example/air_quality.pdf"
     EXIT_STATUS=1
+fi
 
 info "Cleaning up temporary files from tests"
 rm -f $TEMPORARY_DIRECTORY/config.json
