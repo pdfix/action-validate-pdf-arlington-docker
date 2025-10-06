@@ -13,18 +13,6 @@
             "program": "docker run -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format html --input \"/data/${input_pdf}\" --output \"/data/${output_html}\"",
             "args": [
                 {
-                    "name": "max_failures",
-                    "desc": "Limits the number of checked failures, and if set to -1, the entire document is checked",
-                    "type": "int",
-                    "value": "-1"
-                },
-                {
-                    "name": "max_failures_displayed",
-                    "desc": "Maximum number of failures to display. If set to -1, all failures are displayed",
-                    "type": "int",
-                    "value": "-1"
-                },
-                {
                     "name": "input_pdf",
                     "desc": "Input PDF file",
                     "flags": 2,
@@ -52,18 +40,6 @@
             "local": "True",
             "program": "docker run -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format xml --input \"/data/${input_pdf}\" --output \"/data/${output_xml}\"",
             "args": [
-                {
-                    "name": "max_failures",
-                    "desc": "Limits the number of checked failures, and if set to -1, the entire document is checked",
-                    "type": "int",
-                    "value": "-1"
-                },
-                {
-                    "name": "max_failures_displayed",
-                    "desc": "Maximum number of failures to display. If set to -1, all failures are displayed",
-                    "type": "int",
-                    "value": "-1"
-                },
                 {
                     "name": "input_pdf",
                     "desc": "Input PDF file",
