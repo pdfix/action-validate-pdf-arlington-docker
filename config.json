@@ -3,7 +3,7 @@
     "version": "v0.0.0",
     "actions": [
         {
-            "title": "Validate PDF Grammar to HTML (Arlington)",
+            "title": "Arlington PDF Model in HTML",
             "name": "pdfix_validate_pdf_grammar_to_html_arlington",
             "desc": "Automatically checks grammar in a PDF using the Arlington PDF Model [Local]",
             "version": "v0.0.0",
@@ -31,7 +31,7 @@
             ]
         },
         {
-            "title": "Validate PDF Grammar to XML (Arlington)",
+            "title": "Arlington PDF Model in XML",
             "name": "pdfix_validate_pdf_grammar_to_xml_arlington",
             "desc": "Automatically checks grammar in a PDF using the Arlington PDF Model [Local]",
             "version": "v0.0.0",
