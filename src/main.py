@@ -7,6 +7,16 @@ import traceback
 from pathlib import Path
 from typing import Optional
 
+from exceptions import (
+    EC_ARG_GENERAL,
+    MESSAGE_ARG_GENERAL,
+    ArgumentInputMissingException,
+    ArgumentInputPdfException,
+    ArgumentInputPdfOutputHtmlException,
+    ArgumentInputPdfOutputXmlException,
+    ExpectedException,
+    ValidationFailed,
+)
 from image_update import DockerImageContainerUpdateChecker
 
 
@@ -67,16 +77,23 @@ def run_validation_subcommand(args) -> None:
     input_file = args.input
 
     if not os.path.isfile(input_file):
-        raise Exception(f"Error: The input file '{input_file}' does not exist.")
+        raise ArgumentInputMissingException()
 
     if not input_file.lower().endswith(".pdf"):
-        raise Exception("Input file must be PDF")
+        raise ArgumentInputPdfException()
 
     output_file: Optional[str] = args.output
     maxfailuresdisplayed: int = args.maxfailuresdisplayed
     format: str = args.format
 
-    run_validation(input_file, output_file, maxfailuresdisplayed, format)
+    if format == "xml" and (output_file is None or not output_file.lower().endswith(".xml")):
+        raise ArgumentInputPdfOutputXmlException()
+
+    if format == "html" and (output_file is None or not output_file.lower().endswith(".html")):
+        raise ArgumentInputPdfOutputHtmlException()
+
+    returncode: int = run_validation(input_file, output_file, maxfailuresdisplayed, format)
+    sys.exit(returncode)
 
 
 def run_validation(
@@ -84,7 +101,7 @@ def run_validation(
     output_file: Optional[str],
     maxfailuresdisplayed: int,
     format: str,
-) -> None:
+) -> int:
     """
     Runs validation using Arlington java program in subprocess.
 
@@ -93,6 +110,9 @@ def run_validation(
         output_file (Optional[str]): Either path to output file or None when output goes to standart output.
         maxfailuresdisplayed (str): Max failures displayed
         format (str): Format of output like json, xml, ...
+
+    Return:
+        Return code of validation process.
     """
     try:
         java_program_path = os.path.join(
@@ -111,7 +131,7 @@ def run_validation(
         command_to_run = " ".join(command)
         command_to_run += f' "{input_file}"'
 
-        stdout, stderr = run_subprocess(command_to_run)
+        returncode, stdout, stderr = run_subprocess(command_to_run)
 
         if output_file:
             with open(output_file, "w+", encoding="utf-8") as out:
@@ -122,11 +142,17 @@ def run_validation(
         if stderr:
             print(stderr, file=sys.stderr)
 
-    except Exception as e:
-        raise Exception(f"Failed to run validation: {e}")
+        # 0 is the only valid return code
+        if returncode > 0:
+            raise ValidationFailed()
+
+        return returncode
+
+    except Exception:
+        raise ValidationFailed()
 
 
-def run_subprocess(command: str) -> tuple:
+def run_subprocess(command: str) -> tuple[int, str, str]:
     """
     Execute a shell command and capture its output and return code.
 
@@ -139,6 +165,7 @@ def run_subprocess(command: str) -> tuple:
 
     Returns:
         tuple: A tuple containing:
+            - returncode (int): The return code of the command.
             - stdout (str): The standard output of the command.
             - stderr (str): The standard error of the command.
 
@@ -152,7 +179,7 @@ def run_subprocess(command: str) -> tuple:
     )
     stdout, stderr = process.communicate()
 
-    return stdout, stderr
+    return process.returncode, stdout, stderr
 
 
 def main():
@@ -186,10 +213,11 @@ def main():
     try:
         args = parser.parse_args()
     except SystemExit as e:
-        if e.code == 0:  # This happens when --help is used, exit gracefully
-            sys.exit(0)
-        print("Failed to parse arguments. Please check the usage and try again.", file=sys.stderr)
-        sys.exit(e.code)
+        if e.code != 0:
+            print(MESSAGE_ARG_GENERAL, file=sys.stderr)
+            sys.exit(EC_ARG_GENERAL)
+        # This happens when --help is used, exit gracefully
+        sys.exit(0)
 
     if hasattr(args, "func"):
         # Check for updates only when help is not checked
@@ -201,6 +229,9 @@ def main():
         # Run subcommand
         try:
             args.func(args)
+        except ExpectedException as e:
+            print(e.message, file=sys.stderr)
+            sys.exit(e.error_code)
         except Exception as e:
             print(traceback.format_exc(), file=sys.stderr)
             print(f"Failed to run the program: {e}", file=sys.stderr)
