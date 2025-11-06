@@ -7,6 +7,7 @@ import traceback
 from pathlib import Path
 from typing import Optional
 
+from constants import CONFIG_FILE
 from exceptions import (
     EC_ARG_GENERAL,
     MESSAGE_ARG_GENERAL,
@@ -63,7 +64,7 @@ def get_pdfix_config(path: str) -> None:
     Args:
         path (string): Destination path for config.json file
     """
-    config_path = os.path.join(Path(__file__).parent.absolute(), "../config.json")
+    config_path: Path = Path(__file__).parent.parent.joinpath(CONFIG_FILE).resolve()
 
     with open(config_path, "r", encoding="utf-8") as file:
         if path is None:
@@ -74,7 +75,7 @@ def get_pdfix_config(path: str) -> None:
 
 
 def run_validation_subcommand(args) -> None:
-    input_file = args.input
+    input_file: str = args.input
 
     if not os.path.isfile(input_file):
         raise ArgumentInputMissingException()
@@ -115,10 +116,10 @@ def run_validation(
         Return code of validation process.
     """
     try:
-        java_program_path = os.path.join(
-            Path(__file__).parent.absolute(), "../res/greenfield-apps-arlington-1.27.0-SNAPSHOT.jar"
+        java_program_path: str = (
+            Path(__file__).parent.parent.joinpath("res/greenfield-apps-arlington-1.27.0-SNAPSHOT.jar").as_posix()
         )
-        command = [
+        command: list[str] = [
             "java",
             "-jar",
             java_program_path,
@@ -128,7 +129,7 @@ def run_validation(
             format,
         ]
 
-        command_to_run = " ".join(command)
+        command_to_run: str = " ".join(command)
         command_to_run += f' "{input_file}"'
 
         returncode, stdout, stderr = run_subprocess(command_to_run)
@@ -170,7 +171,7 @@ def run_subprocess(command: str) -> tuple[int, str, str]:
             - stderr (str): The standard error of the command.
 
     """
-    process = subprocess.Popen(
+    process: subprocess.Popen = subprocess.Popen(
         command,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
