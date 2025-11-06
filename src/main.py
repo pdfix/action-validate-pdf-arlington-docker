@@ -143,8 +143,8 @@ def run_validation(
         if stderr:
             print(stderr, file=sys.stderr)
 
-        # 0 is the only valid return code
-        if returncode > 0:
+        # arlington returns 0 (no validation errors) or 1 (some validation errors)
+        if returncode > 1:
             raise ValidationFailed()
 
         return returncode
@@ -225,7 +225,7 @@ def main():
     except Exception as e:
         print(traceback.format_exc(), file=sys.stderr)
         print(f"Failed to run the program: {e}", file=sys.stderr)
-        sys.exit(1)
+        sys.exit(2)
 
     if hasattr(args, "func"):
         # Check for updates only when help is not checked
@@ -243,7 +243,7 @@ def main():
         except Exception as e:
             print(traceback.format_exc(), file=sys.stderr)
             print(f"Failed to run the program: {e}", file=sys.stderr)
-            sys.exit(1)
+            sys.exit(2)
         finally:
             # Make sure to let update thread finish before exiting
             update_thread.join()

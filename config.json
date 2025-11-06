@@ -10,6 +10,10 @@
             "icon": "arlington_html",
             "category": "Validation",
             "local": "True",
+            "returnCodes": [
+                0,
+                1
+            ],
             "program": "docker run -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format html --input \"/data/${input_pdf}\" --output \"/data/${output_html}\"",
             "args": [
                 {
@@ -46,6 +50,10 @@
             "icon": "arlington_xml",
             "category": "Validation",
             "local": "True",
+            "returnCodes": [
+                0,
+                1
+            ],
             "program": "docker run -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format xml --input \"/data/${input_pdf}\" --output \"/data/${output_xml}\"",
             "args": [
                 {
