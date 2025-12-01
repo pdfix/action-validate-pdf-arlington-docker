@@ -9,7 +9,7 @@
             "version": "v0.0.0",
             "icon": "arlington_html",
             "category": "Validation",
-            "local": "True",
+            "local": true,
             "returnCodes": [
                 0,
                 1
@@ -49,7 +49,7 @@
             "version": "v0.0.0",
             "icon": "arlington_xml",
             "category": "Validation",
-            "local": "True",
+            "local": true,
             "returnCodes": [
                 0,
                 1
