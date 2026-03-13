@@ -7,6 +7,8 @@ import traceback
 from pathlib import Path
 from typing import Optional
 
+from tqdm import tqdm
+
 from constants import CONFIG_FILE
 from exceptions import (
     EC_ARG_GENERAL,
@@ -115,42 +117,49 @@ def run_validation(
     Return:
         Return code of validation process.
     """
-    try:
-        java_program_path: str = (
-            Path(__file__).parent.parent.joinpath("res/greenfield-apps-arlington-1.27.0-SNAPSHOT.jar").as_posix()
-        )
-        command: list[str] = [
-            "java",
-            "-jar",
-            java_program_path,
-            "--maxfailuresdisplayed",
-            str(maxfailuresdisplayed),
-            "--format",
-            format,
-        ]
+    with tqdm(total=100) as progress_bar:
+        progress_bar.set_description("Validating")
 
-        command_to_run: str = " ".join(command)
-        command_to_run += f' "{input_file}"'
+        try:
+            java_program_path: str = (
+                Path(__file__).parent.parent.joinpath("res/greenfield-apps-arlington-1.27.0-SNAPSHOT.jar").as_posix()
+            )
+            command: list[str] = [
+                "java",
+                "-jar",
+                java_program_path,
+                "--maxfailuresdisplayed",
+                str(maxfailuresdisplayed),
+                "--format",
+                format,
+            ]
 
-        returncode, stdout, stderr = run_subprocess(command_to_run)
+            command_to_run: str = " ".join(command)
+            command_to_run += f' "{input_file}"'
 
-        if output_file:
-            with open(output_file, "w+", encoding="utf-8") as out:
-                out.write(stdout)
-        else:
-            print(stdout)
+            returncode, stdout, stderr = run_subprocess(command_to_run)
 
-        if stderr:
-            print(stderr, file=sys.stderr)
+            if output_file:
+                with open(output_file, "w+", encoding="utf-8") as out:
+                    out.write(stdout)
+            else:
+                print(stdout)
 
-        # arlington returns 0 (no validation errors) or 1 (some validation errors)
-        if returncode > 1:
+            if stderr:
+                print(stderr, file=sys.stderr)
+
+            progress_bar.n = 100
+            progress_bar.set_description("Done")
+            progress_bar.refresh()
+
+            # arlington returns 0 (no validation errors) or 1 (some validation errors)
+            if returncode > 1:
+                raise ValidationFailed()
+
+            return returncode
+
+        except Exception:
             raise ValidationFailed()
-
-        return returncode
-
-    except Exception:
-        raise ValidationFailed()
 
 
 def run_subprocess(command: str) -> tuple[int, str, str]:
