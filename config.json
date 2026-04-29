@@ -10,6 +10,10 @@
             "icon": "arlington_html",
             "category": "Validation",
             "local": true,
+            "docker": {
+                "name": "pdfix/validate-pdf-arlington",
+                "tag": "latest"
+            },
             "returnCodes": [
                 0,
                 1
