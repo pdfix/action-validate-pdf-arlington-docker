@@ -1,56 +1,69 @@
-# Validation with Arlington PDF Model
+# Validate Arlington PDF Model
 
-A Docker image that automatically checks grammar in PDF using the [Arlington PDF Model](https://github.com/pdf-association/arlington-pdf-model). The verification output is a report containing all of the grammatical errors contained in your PDF.
+Validates PDF structure using local Arlington PDF Model grammar rules. Fully offline and open-source; no license required for the validator itself.
 
 ## Table of Contents
 
-- [Validation with Arlington PDF Model](#validation-with-arlington-pdf-model)
-  - [Table of Contents](#table-of-contents)
-  - [Getting Started](#getting-started)
-  - [Run using Command Line Interface](#run-using-command-line-interface)
-  - [Exporting Configuration for Integration](#exporting-configuration-for-integration)
-  - [License](#license)
-  - [Help \& Support](#help--support)
+- [Validate Arlington PDF Model](#validate-arlington-pdf-model)
+  - [Getting started](#getting-started)
+  - [Usage](#usage)
+  - [Commands](#commands)
+  - [Arguments](#arguments)
+  - [Examples](#examples)
+  - [Help \& support](#help--support)
+  - [Licenses](#licenses)
 
-## Getting Started
+## Getting started
 
-To use this Docker application, install the Docker on your system. If Docker is not installed, please follow the instructions on the [official Docker website](https://docs.docker.com/get-docker/) to install it.
+You need Docker installed. The first run downloads the image and may take longer than later runs.
 
-## Run using Command Line Interface
+## Usage
 
-To run the Docker container as a CLI, you need to share the folder with the PDF files you wish to validate using the `-v` parameter. In this example, the current folder is used.
-
-First run will pull the docker image, which may take some time. Make your own image for more advanced use.
-
-```bash
-docker run -v $(pwd):/data --rm -w /data/ pdfix/validate-pdf-arlington:latest validate -i <input>.pdf
-```
-
-Output as HTML
+Mount a folder into the container and run a subcommand:
 
 ```bash
-docker run -v $(pwd):/data --rm -w /data/ pdfix/validate-pdf-arlington:latest validate -i <input>.pdf -o index.html --format html
+docker run --rm -v "$(pwd)":/data -w /data pdfix/validate-pdf-arlington:latest <command> [options]
 ```
 
-For more detailed information about the available command-line arguments, you can run the following command:
+## Commands
+
+- `validate`: Validate a PDF and write or print a report
+
+## Arguments
+
+### `validate`
+
+| Option | Required | Type / expected value | Description |
+|---|:---:|---|---|
+| `--input`, `-i` | yes | Path to an existing `.pdf` file | Input PDF |
+| `--output`, `-o` | no | Path for report file; omit to print to stdout | Output file |
+| `--format` | no | One of: `raw`, `xml`, `html`, `text`, `json` (default: `xml`) | Report format |
+| `--maxfailuresdisplayed` | no | Integer (default **-1**) | Max failures shown |
+
+Notes:
+
+- For `--format xml`, if `--output` is set it must end with `.xml`.
+- For `--format html`, if `--output` is set it must end with `.html`.
+
+## Examples
+
+Validate and print XML to stdout:
 
 ```bash
-docker run --rm pdfix/validate-pdf-arlington:latest --help
+docker run --rm -v "$(pwd)":/data -w /data pdfix/validate-pdf-arlington:latest validate -i /data/input.pdf
 ```
 
-## Exporting Configuration for Integration
-
-To export the configuration JSON file, use the following command:
+Validate and write HTML:
 
 ```bash
-docker run -v $(pwd):/data --rm pdfix/validate-pdf-arlington:latest config -o config.json
+docker run --rm -v "$(pwd)":/data -w /data pdfix/validate-pdf-arlington:latest \
+  validate -i /data/input.pdf -o /data/report.html --format html
 ```
 
-## License
+## Help & support
 
-- veraPDF - https://verapdf.org/home/#licensing
+To report an issue, contact `support@pdfix.net`.
 
-## Help & Support
+## Licenses
 
-To obtain a PDFix SDK license or report an issue please contact us at support@pdfix.net.
-For more information visit https://pdfix.net
+- [Arlington PDF Model](https://github.com/pdf-association/arlington-pdf-model)
