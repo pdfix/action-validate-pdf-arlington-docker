@@ -121,9 +121,7 @@ def run_validation(
         progress_bar.set_description("Validating")
 
         try:
-            java_program_path: str = (
-                Path(__file__).parent.parent.joinpath("res/greenfield-apps-arlington-1.27.0-SNAPSHOT.jar").as_posix()
-            )
+            java_program_path: str = Path(__file__).parent.parent.joinpath("res/cli-arlington-1.30.1.jar").as_posix()
             command: list[str] = [
                 "java",
                 "-jar",
