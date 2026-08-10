@@ -1,18 +1,18 @@
-EC_ARG_GENERAL = 10
-EC_ARG_INPUT_MISSING = 11
-EC_ARG_INPUT_PDF = 12
-EC_ARG_INPUT_PDF_OUTPUT_XML = 13
-EC_ARG_INPUT_PDF_OUTPUT_HTML = 14
+EC_ARG_GENERAL: int = 10
+EC_ARG_INPUT_MISSING: int = 11
+EC_ARG_INPUT_PDF: int = 12
+EC_ARG_INPUT_PDF_OUTPUT_XML: int = 13
+EC_ARG_INPUT_PDF_OUTPUT_HTML: int = 14
 
-EC_VALIDATION_FAILED = 30
+EC_VALIDATION_FAILED: int = 30
 
-MESSAGE_ARG_GENERAL = "Failed to parse arguments. Please check the usage and try again."
-MESSAGE_ARG_INPUT_MISSING = "Input file does not exists."
-MESSAGE_ARG_INPUT_PDF = "Input file must be PDF document."
-MESSAGE_ARG_INPUT_PDF_OUTPUT_XML = "Input file must be PDF document and output file must be XML."
-MESSAGE_ARG_INPUT_PDF_OUTPUT_HTML = "Input file must be PDF document and output file must be HTML."
+MESSAGE_ARG_GENERAL: str = "Failed to parse arguments. Please check the usage and try again."
+MESSAGE_ARG_INPUT_MISSING: str = "Input file does not exists."
+MESSAGE_ARG_INPUT_PDF: str = "Input file must be PDF document."
+MESSAGE_ARG_INPUT_PDF_OUTPUT_XML: str = "Input file must be PDF document and output file must be XML."
+MESSAGE_ARG_INPUT_PDF_OUTPUT_HTML: str = "Input file must be PDF document and output file must be HTML."
 
-MESSAGE_VALIDATION_FAILED = "Validation failed."
+MESSAGE_VALIDATION_FAILED: str = "Validation failed."
 
 
 class ExpectedException(BaseException):
