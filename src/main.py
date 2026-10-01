@@ -22,6 +22,23 @@ from exceptions import (
 )
 from image_update import DockerImageContainerUpdateChecker
 
+# CLI ids passed to the Arlington jar as --profile. Desktop labels are the matching
+# config.json "set" entries. Keep the two lists in sync.
+# Desktop always sends --profile (default auto). Omitting the flag here does not
+# forward --profile to the jar.
+PROFILES: list[str] = [
+    "auto",
+    "arlington1.0",
+    "arlington1.1",
+    "arlington1.2",
+    "arlington1.3",
+    "arlington1.4",
+    "arlington1.5",
+    "arlington1.6",
+    "arlington1.7",
+    "arlington2.0",
+]
+
 
 def set_arguments(
     parser: argparse.ArgumentParser,
@@ -52,6 +69,13 @@ def set_arguments(
                 parser.add_argument("--maxfailuresdisplayed", type=int, default=-1, help="Max failures displayed")
             case "output":
                 parser.add_argument("--output", "-o", type=str, help=output_help)
+            case "profile":
+                parser.add_argument(
+                    "--profile",
+                    type=str,
+                    choices=PROFILES,
+                    help="Arlington grammar profile. Omit to leave profile selection to the Arlington jar.",
+                )
 
 
 def run_config_subcommand(args) -> None:
@@ -88,6 +112,7 @@ def run_validation_subcommand(args) -> None:
     output_file: Optional[str] = args.output
     maxfailuresdisplayed: int = args.maxfailuresdisplayed
     format: str = args.format
+    profile: Optional[str] = args.profile
 
     if format == "xml" and (output_file is None or not output_file.lower().endswith(".xml")):
         raise ArgumentInputPdfOutputXmlException()
@@ -95,7 +120,7 @@ def run_validation_subcommand(args) -> None:
     if format == "html" and (output_file is None or not output_file.lower().endswith(".html")):
         raise ArgumentInputPdfOutputHtmlException()
 
-    returncode: int = run_validation(input_file, output_file, maxfailuresdisplayed, format)
+    returncode: int = run_validation(input_file, output_file, maxfailuresdisplayed, format, profile)
     sys.exit(returncode)
 
 
@@ -104,6 +129,7 @@ def run_validation(
     output_file: Optional[str],
     maxfailuresdisplayed: int,
     format: str,
+    profile: Optional[str],
 ) -> int:
     """
     Runs validation using Arlington java program in subprocess.
@@ -113,6 +139,7 @@ def run_validation(
         output_file (Optional[str]): Either path to output file or None when output goes to standart output.
         maxfailuresdisplayed (str): Max failures displayed
         format (str): Format of output like json, xml, ...
+        profile (Optional[str]): Arlington profile id, for example auto or arlington1.7.
 
     Return:
         Return code of validation process.
@@ -131,6 +158,9 @@ def run_validation(
                 "--format",
                 format,
             ]
+            if profile:
+                command.append("--profile")
+                command.append(profile)
 
             command_to_run: str = " ".join(command)
             command_to_run += f' "{input_file}"'
@@ -213,7 +243,9 @@ def main():
         help="Run validation of PDF document",
     )
     set_arguments(
-        validate_subparser, ["input", "output", "maxfailuresdisplayed", "format"], "The output validation file"
+        validate_subparser,
+        ["input", "output", "maxfailuresdisplayed", "format", "profile"],
+        "The output validation file",
     )
     validate_subparser.set_defaults(func=run_validation_subcommand)
 

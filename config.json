@@ -18,7 +18,7 @@
                 0,
                 1
             ],
-            "program": "docker run -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format html --input \"/data/${input_pdf}\" --output \"/data/${output_html}\"",
+            "program": "docker run -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format html --profile \"${profile}\" --input \"/data/${input_pdf}\" --output \"/data/${output_html}\"",
             "args": [
                 {
                     "name": "input_pdf",
@@ -35,6 +35,56 @@
                     "ext": "html",
                     "type": "file_path",
                     "value": ""
+                },
+                {
+                    "title": "Profile",
+                    "name": "profile",
+                    "desc": "Arlington grammar profile. Autodetect follows the PDF version.",
+                    "type": "string",
+                    "flags": 1,
+                    "value": "auto",
+                    "set": [
+                        {
+                            "desc": "Autodetect",
+                            "value": "auto"
+                        },
+                        {
+                            "desc": "Arlington 1.0",
+                            "value": "arlington1.0"
+                        },
+                        {
+                            "desc": "Arlington 1.1",
+                            "value": "arlington1.1"
+                        },
+                        {
+                            "desc": "Arlington 1.2",
+                            "value": "arlington1.2"
+                        },
+                        {
+                            "desc": "Arlington 1.3",
+                            "value": "arlington1.3"
+                        },
+                        {
+                            "desc": "Arlington 1.4",
+                            "value": "arlington1.4"
+                        },
+                        {
+                            "desc": "Arlington 1.5",
+                            "value": "arlington1.5"
+                        },
+                        {
+                            "desc": "Arlington 1.6",
+                            "value": "arlington1.6"
+                        },
+                        {
+                            "desc": "Arlington 1.7",
+                            "value": "arlington1.7"
+                        },
+                        {
+                            "desc": "Arlington 2.0",
+                            "value": "arlington2.0"
+                        }
+                    ]
                 }
             ],
             "errors": {
@@ -59,7 +109,7 @@
                 0,
                 1
             ],
-            "program": "docker run -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format xml --input \"/data/${input_pdf}\" --output \"/data/${output_xml}\"",
+            "program": "docker run -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format xml --profile \"${profile}\" --input \"/data/${input_pdf}\" --output \"/data/${output_xml}\"",
             "args": [
                 {
                     "name": "input_pdf",
@@ -76,6 +126,56 @@
                     "ext": "xml",
                     "type": "file_path",
                     "value": ""
+                },
+                {
+                    "title": "Profile",
+                    "name": "profile",
+                    "desc": "Arlington grammar profile. Autodetect follows the PDF version.",
+                    "type": "string",
+                    "flags": 1,
+                    "value": "auto",
+                    "set": [
+                        {
+                            "desc": "Autodetect",
+                            "value": "auto"
+                        },
+                        {
+                            "desc": "Arlington 1.0",
+                            "value": "arlington1.0"
+                        },
+                        {
+                            "desc": "Arlington 1.1",
+                            "value": "arlington1.1"
+                        },
+                        {
+                            "desc": "Arlington 1.2",
+                            "value": "arlington1.2"
+                        },
+                        {
+                            "desc": "Arlington 1.3",
+                            "value": "arlington1.3"
+                        },
+                        {
+                            "desc": "Arlington 1.4",
+                            "value": "arlington1.4"
+                        },
+                        {
+                            "desc": "Arlington 1.5",
+                            "value": "arlington1.5"
+                        },
+                        {
+                            "desc": "Arlington 1.6",
+                            "value": "arlington1.6"
+                        },
+                        {
+                            "desc": "Arlington 1.7",
+                            "value": "arlington1.7"
+                        },
+                        {
+                            "desc": "Arlington 2.0",
+                            "value": "arlington2.0"
+                        }
+                    ]
                 }
             ],
             "errors": {
