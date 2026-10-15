@@ -22,12 +22,14 @@ from exceptions import (
 )
 from image_update import DockerImageContainerUpdateChecker
 
+DEFAULT_PROFILE: str = "auto"
+
 # CLI ids passed to the Arlington jar as --profile. Desktop labels are the matching
 # config.json "set" entries. Keep the two lists in sync.
 # Desktop always sends --profile (default auto). Omitting the flag here does not
 # forward --profile to the jar.
 PROFILES: list[str] = [
-    "auto",
+    DEFAULT_PROFILE,
     "arlington1.0",
     "arlington1.1",
     "arlington1.2",
@@ -158,8 +160,8 @@ def run_validation(
                 "--format",
                 format,
             ]
-            if profile:
-                command.append("--profile")
+            if profile and profile != DEFAULT_PROFILE:
+                command.append("--flavour")
                 command.append(profile)
 
             command_to_run: str = " ".join(command)
@@ -182,11 +184,14 @@ def run_validation(
 
             # arlington returns 0 (no validation errors) or 1 (some validation errors)
             if returncode > 1:
+                print(f"Validation exited with code {returncode}", file=sys.stderr)
                 raise ValidationFailed()
 
             return returncode
 
-        except Exception:
+        except Exception as e:
+            print(traceback.format_exc(), file=sys.stderr)
+            print(f"Unexpected exception: {e}", file=sys.stderr)
             raise ValidationFailed()
 
 
