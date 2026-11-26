@@ -29,6 +29,6 @@ COPY res/ /usr/validation/res/
 
 # License
 COPY THIRD_PARTY_LICENSES.md /THIRD_PARTY_LICENSES.md
-LABEL license="Arlington PDF Model (see https://github.com/pdf-association/arlington-pdf-model)"
+LABEL license="veraPDF dual-licensed GPLv3+ / MPLv2+ (see https://verapdf.org/home/#licensing), Arlington PDF Model Apache-2.0, OpenJDK GPLv2 with Classpath Exception"
 
 ENTRYPOINT ["/usr/validation/venv/bin/python3", "/usr/validation/src/main.py"]

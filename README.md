@@ -91,5 +91,7 @@ To report an issue, contact `support@pdfix.net`.
 
 ## Licenses
 
-- [Arlington PDF Model](https://github.com/pdf-association/arlington-pdf-model)
+- [veraPDF licensing](https://verapdf.org/home/#licensing) (GPLv3+ / MPLv2+): the Arlington PDF Model checker `res/cli-arlington-1.30.3.jar`
+- [Arlington PDF Model](https://github.com/pdf-association/arlington-pdf-model) (Apache-2.0)
+- [OpenJDK](https://openjdk.org/legal/gplv2+ce.html) (GPLv2 with the Classpath Exception): Java runtime in the image
 
