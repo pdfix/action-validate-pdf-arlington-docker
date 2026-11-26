@@ -235,7 +235,7 @@ def main():
         description="Validate a PDF against Arlington grammar",
     )
 
-    subparsers = parser.add_subparsers(dest="subparser")
+    subparsers = parser.add_subparsers(title="Commands", dest="command", required=True)
 
     # Config subcommand
     config_subparser = subparsers.add_parser(
