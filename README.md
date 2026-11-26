@@ -9,6 +9,8 @@ Validates PDF structure using local Arlington PDF Model grammar rules. Fully off
   - [Usage](#usage)
   - [Commands](#commands)
   - [Arguments](#arguments)
+  - [How it works](#how-it-works)
+  - [Exit codes](#exit-codes)
   - [Examples](#examples)
   - [Help \& support](#help--support)
   - [Licenses](#licenses)
@@ -60,10 +62,33 @@ Notes:
 
 - For `--format xml` (the default), `--output` is required and must end with `.xml`.
 - For `--format html`, `--output` is required and must end with `.html`.
-- Exit code 0 means the PDF is compliant, 1 means it is not compliant (see the report). Other codes are errors listed in `config.json`.
 - Autodetect (`auto`) takes the higher of the PDF versions in the file header and in the document catalog and checks PDF 1.0–1.4 with the PDF 1.4 rules, PDF 1.5–1.7 with the PDF 1.7 rules and PDF 2.0 with the PDF 2.0 rules. Select a profile to check the rules of an exact version.
 - Omit `--profile` and the flag is not passed to the Arlington jar.
 - PDFix Desktop always passes `--profile`. Autodetect is the default, so a Desktop run sends at least `--profile auto`.
+
+## How it works
+
+- The Arlington validator (Java) checks every object of the PDF against the Arlington PDF Model grammar of the profile and writes the report (deviations with the object, key and rule) in the selected format.
+- **Autodetect** uses only three rule sets: PDF 1.0–1.4 → PDF 1.4 rules, PDF 1.5–1.7 → PDF 1.7 rules, PDF 2.0 → PDF 2.0 rules (the version is the higher of the file header and the document catalog).
+- The PDF is only read. The report is written also when the PDF cannot be parsed or is password-protected (errors 31 and 32).
+- Messages of the validator are logged as warnings. A run takes a few seconds.
+- **Checks before validation:** output extension (11 / 12) and folder (13), input (14).
+
+## Exit codes
+
+| Code | Meaning |
+|---|---|
+| 0 | The PDF is compliant with the Arlington PDF Model |
+| 1 | The PDF is not compliant; see the report |
+| 2 | Unexpected error (`Failed to run the program:` + traceback) |
+| 10 | Invalid arguments or no command |
+| 11 | Output file must be an XML document (`--format xml`) |
+| 12 | Output file must be an HTML document (`--format html`) |
+| 13 | Output folder does not exist |
+| 14 | Input file is not an existing PDF |
+| 30 | Validation failed (the validator ended with another error, the log shows its code) |
+| 31 | Input file is not a valid PDF document (cannot be parsed) |
+| 32 | Input file is password-protected |
 
 ## Examples
 
