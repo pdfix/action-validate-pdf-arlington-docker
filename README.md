@@ -46,15 +46,15 @@ Profiles:
 | Desktop name | `--profile` value |
 |---|---|
 | Autodetect | `auto` |
-| Arlington 1.0 | `arlington1.0` |
-| Arlington 1.1 | `arlington1.1` |
-| Arlington 1.2 | `arlington1.2` |
-| Arlington 1.3 | `arlington1.3` |
-| Arlington 1.4 | `arlington1.4` |
-| Arlington 1.5 | `arlington1.5` |
-| Arlington 1.6 | `arlington1.6` |
-| Arlington 1.7 | `arlington1.7` |
-| Arlington 2.0 | `arlington2.0` |
+| PDF 1.0 | `arlington1.0` |
+| PDF 1.1 | `arlington1.1` |
+| PDF 1.2 | `arlington1.2` |
+| PDF 1.3 | `arlington1.3` |
+| PDF 1.4 | `arlington1.4` |
+| PDF 1.5 | `arlington1.5` |
+| PDF 1.6 | `arlington1.6` |
+| PDF 1.7 | `arlington1.7` |
+| PDF 2.0 | `arlington2.0` |
 
 Notes:
 
@@ -78,7 +78,7 @@ docker run --rm -v "$(pwd)":/data -w /data pdfix/validate-pdf-arlington:latest \
   validate -i /data/input.pdf -o /data/report.html --format html
 ```
 
-Validate against Arlington 1.7:
+Validate against the PDF 1.7 profile:
 
 ```bash
 docker run --rm -v "$(pwd)":/data -w /data pdfix/validate-pdf-arlington:latest \
