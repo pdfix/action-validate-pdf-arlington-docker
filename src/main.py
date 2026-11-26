@@ -188,10 +188,9 @@ def run_validation(
             command.append("--flavour")
             command.append(profile)
 
-        command_to_run: str = " ".join(command)
-        command_to_run += f' "{input_file}"'
+        command.append(input_file)
 
-        returncode, stdout, stderr = run_subprocess(command_to_run)
+        returncode, stdout, stderr = run_subprocess(command)
 
         if output_file:
             with open(output_file, "w+", encoding="utf-8") as out:
@@ -224,16 +223,14 @@ def run_validation(
     return returncode
 
 
-def run_subprocess(command: str) -> tuple[int, str, str]:
+def run_subprocess(command: list[str]) -> tuple[int, str, str]:
     """
-    Execute a shell command and capture its output and return code.
+    Execute a command without a shell and capture its output and return code.
 
-    This function runs the validation as shell command using the `subprocess.Popen`
-    method, captures the standard output (stdout), standard error (stderr),
-    and the return code of the process.
+    Arguments are passed to the program as they are, so file names with quotes, `$` or spaces are safe.
 
     Args:
-        command (str): The shell command to execute.
+        command (list[str]): The program and its arguments.
 
     Returns:
         tuple: A tuple containing:
@@ -246,7 +243,6 @@ def run_subprocess(command: str) -> tuple[int, str, str]:
         command,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        shell=True,
         text=True,
     )
     stdout, stderr = process.communicate()
