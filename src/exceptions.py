@@ -1,16 +1,16 @@
 EC_ARG_GENERAL: int = 10
-EC_ARG_INPUT_MISSING: int = 11
-EC_ARG_INPUT_PDF: int = 12
-EC_ARG_INPUT_PDF_OUTPUT_XML: int = 13
-EC_ARG_INPUT_PDF_OUTPUT_HTML: int = 14
+EC_ARG_OUTPUT_NOT_XML: int = 11
+EC_ARG_OUTPUT_NOT_HTML: int = 12
+EC_ARG_OUTPUT_FOLDER_NOT_EXISTS: int = 13
+EC_ARG_INPUT_NOT_PDF: int = 14
 
 EC_VALIDATION_FAILED: int = 30
 
 MESSAGE_ARG_GENERAL: str = "Failed to parse arguments. Please check the usage and try again."
-MESSAGE_ARG_INPUT_MISSING: str = "Input file does not exists."
-MESSAGE_ARG_INPUT_PDF: str = "Input file must be PDF document."
-MESSAGE_ARG_INPUT_PDF_OUTPUT_XML: str = "Input file must be PDF document and output file must be XML."
-MESSAGE_ARG_INPUT_PDF_OUTPUT_HTML: str = "Input file must be PDF document and output file must be HTML."
+MESSAGE_ARG_OUTPUT_NOT_XML: str = "Output file must be XML document."
+MESSAGE_ARG_OUTPUT_NOT_HTML: str = "Output file must be HTML document."
+MESSAGE_ARG_OUTPUT_FOLDER_NOT_EXISTS: str = "Output folder does not exist."
+MESSAGE_ARG_INPUT_NOT_PDF: str = "Input file must be an existing PDF document."
 
 MESSAGE_VALIDATION_FAILED: str = "Validation failed."
 
@@ -30,24 +30,24 @@ class ArgumentException(ExpectedException):
         self._add_note(message)
 
 
-class ArgumentInputMissingException(ArgumentException):
+class ArgumentOutputNotXmlException(ArgumentException):
     def __init__(self) -> None:
-        super().__init__(MESSAGE_ARG_INPUT_MISSING, EC_ARG_INPUT_MISSING)
+        super().__init__(MESSAGE_ARG_OUTPUT_NOT_XML, EC_ARG_OUTPUT_NOT_XML)
 
 
-class ArgumentInputPdfException(ArgumentException):
+class ArgumentOutputNotHtmlException(ArgumentException):
     def __init__(self) -> None:
-        super().__init__(MESSAGE_ARG_INPUT_PDF, EC_ARG_INPUT_PDF)
+        super().__init__(MESSAGE_ARG_OUTPUT_NOT_HTML, EC_ARG_OUTPUT_NOT_HTML)
 
 
-class ArgumentInputPdfOutputXmlException(ArgumentException):
-    def __init__(self) -> None:
-        super().__init__(MESSAGE_ARG_INPUT_PDF_OUTPUT_XML, EC_ARG_INPUT_PDF_OUTPUT_XML)
+class ArgumentOutputFolderNotExistsException(ArgumentException):
+    def __init__(self, path: str) -> None:
+        super().__init__(f"{MESSAGE_ARG_OUTPUT_FOLDER_NOT_EXISTS} {path}", EC_ARG_OUTPUT_FOLDER_NOT_EXISTS)
 
 
-class ArgumentInputPdfOutputHtmlException(ArgumentException):
-    def __init__(self) -> None:
-        super().__init__(MESSAGE_ARG_INPUT_PDF_OUTPUT_HTML, EC_ARG_INPUT_PDF_OUTPUT_HTML)
+class ArgumentInputNotPdfException(ArgumentException):
+    def __init__(self, path: str) -> None:
+        super().__init__(f"{MESSAGE_ARG_INPUT_NOT_PDF} {path}", EC_ARG_INPUT_NOT_PDF)
 
 
 class ValidationFailed(ExpectedException):

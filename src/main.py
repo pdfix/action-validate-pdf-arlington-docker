@@ -1,6 +1,5 @@
 import argparse
 import logging
-import os
 import subprocess
 import sys
 import threading
@@ -15,10 +14,10 @@ from constants import CONFIG_FILE
 from exceptions import (
     EC_ARG_GENERAL,
     MESSAGE_ARG_GENERAL,
-    ArgumentInputMissingException,
-    ArgumentInputPdfException,
-    ArgumentInputPdfOutputHtmlException,
-    ArgumentInputPdfOutputXmlException,
+    ArgumentInputNotPdfException,
+    ArgumentOutputFolderNotExistsException,
+    ArgumentOutputNotHtmlException,
+    ArgumentOutputNotXmlException,
     ExpectedException,
     ValidationFailed,
 )
@@ -107,27 +106,42 @@ def get_pdfix_config(path: str) -> None:
                 out.write(file.read())
 
 
+def check_output_file(output_path: Optional[str], format: str) -> None:
+    """
+    Check the output file extension and that its folder exists before validation.
+
+    Args:
+        output_path (Optional[str]): Path to the report file, or None to print the report.
+        format (str): Format of the report.
+    """
+    suffix: str = Path(output_path).suffix.lower() if output_path else ""
+    if format == "xml" and suffix != ".xml":
+        raise ArgumentOutputNotXmlException()
+    if format == "html" and suffix != ".html":
+        raise ArgumentOutputNotHtmlException()
+    if output_path:
+        output_folder: Path = Path(output_path).resolve().parent
+        if not output_folder.is_dir():
+            raise ArgumentOutputFolderNotExistsException(output_folder.as_posix())
+
+
+def check_input_file(input_path: str) -> None:
+    """
+    Check that the input is an existing PDF file.
+
+    Args:
+        input_path (str): Path to the input PDF file.
+    """
+    path: Path = Path(input_path)
+    if path.suffix.lower() != ".pdf" or not path.is_file():
+        raise ArgumentInputNotPdfException(input_path)
+
+
 def run_validation_subcommand(args) -> None:
-    input_file: str = args.input
+    check_output_file(args.output, args.format)
+    check_input_file(args.input)
 
-    if not os.path.isfile(input_file):
-        raise ArgumentInputMissingException()
-
-    if not input_file.lower().endswith(".pdf"):
-        raise ArgumentInputPdfException()
-
-    output_file: Optional[str] = args.output
-    maxfailuresdisplayed: int = args.maxfailuresdisplayed
-    format: str = args.format
-    profile: Optional[str] = args.profile
-
-    if format == "xml" and (output_file is None or not output_file.lower().endswith(".xml")):
-        raise ArgumentInputPdfOutputXmlException()
-
-    if format == "html" and (output_file is None or not output_file.lower().endswith(".html")):
-        raise ArgumentInputPdfOutputHtmlException()
-
-    returncode: int = run_validation(input_file, output_file, maxfailuresdisplayed, format, profile)
+    returncode: int = run_validation(args.input, args.output, args.maxfailuresdisplayed, args.format, args.profile)
     sys.exit(returncode)
 
 
