@@ -36,7 +36,7 @@ docker run --rm -v "$(pwd)":/data -w /data pdfix/validate-pdf-arlington:latest <
 | Option | Required | Type / expected value | Description |
 |---|:---:|---|---|
 | `--input`, `-i` | yes | Path to an existing `.pdf` file | Input PDF |
-| `--output`, `-o` | no | Path for report file; omit to print to stdout | Output file |
+| `--output`, `-o` | for `xml` and `html` | Path for report file in an existing folder; omit to print `raw`, `text` or `json` to stdout | Output file |
 | `--format` | no | One of: `raw`, `xml`, `html`, `text`, `json` (default: `xml`) | Report format |
 | `--maxfailuresdisplayed` | no | Integer (default **-1**) | Max failures shown |
 | `--profile` | no | One of the profile ids below | Arlington grammar profile |
@@ -58,17 +58,18 @@ Profiles:
 
 Notes:
 
-- For `--format xml`, if `--output` is set it must end with `.xml`.
-- For `--format html`, if `--output` is set it must end with `.html`.
+- For `--format xml` (the default), `--output` is required and must end with `.xml`.
+- For `--format html`, `--output` is required and must end with `.html`.
+- Exit code 0 means the PDF is compliant, 1 means it is not compliant (see the report). Other codes are errors listed in `config.json`.
 - Omit `--profile` and the flag is not passed to the Arlington jar.
 - PDFix Desktop always passes `--profile`. Autodetect is the default, so a Desktop run sends at least `--profile auto`.
 
 ## Examples
 
-Validate and print XML to stdout:
+Validate and print a text report to stdout:
 
 ```bash
-docker run --rm -v "$(pwd)":/data -w /data pdfix/validate-pdf-arlington:latest validate -i /data/input.pdf
+docker run --rm -v "$(pwd)":/data -w /data pdfix/validate-pdf-arlington:latest validate -i /data/input.pdf --format text
 ```
 
 Validate and write HTML:
@@ -82,7 +83,7 @@ Validate against the PDF 1.7 profile:
 
 ```bash
 docker run --rm -v "$(pwd)":/data -w /data pdfix/validate-pdf-arlington:latest \
-  validate -i /data/input.pdf --profile arlington1.7
+  validate -i /data/input.pdf -o /data/report.xml --profile arlington1.7
 ```
 
 ## Help & support
