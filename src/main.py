@@ -143,6 +143,124 @@ def check_input_file(input_path: str) -> None:
         raise ArgumentInputNotPdfException(input_path)
 
 
+# @KA:action pdfix_validate_pdf_grammar_to_html_arlington
+# @KA:desc Checks the syntax and structure of a PDF against the Arlington PDF Model, the machine-readable definition of
+# all PDF objects of ISO 32000 (PDF 1.0 to 2.0) by the PDF Association: which dictionaries, keys and values are allowed,
+# required and of which type in the PDF version. The validator of veraPDF writes every deviation to a report saved as an
+# HTML file. The PDF itself is not changed.
+# @KA:context Use it to find out whether a PDF is technically correct for its PDF version, for example when other tools
+# cannot process it or before you archive or deliver it. It does not check accessibility (PDF/UA) or archiving (PDF/A);
+# use the veraPDF validation actions for these. Runs locally in Docker and nothing leaves your computer; the first run
+# downloads the image and takes longer. A PDFix license is not needed.
+# @KA:param input_pdf
+# @KA:desc PDF document to check. It is only read, never changed.
+# @KA:problem "Input file must be an existing PDF document." (error 14)
+# @KA:solution The file shown in the message was not found or does not have the `.pdf` extension. Select an existing PDF
+# file.
+# @KA:problem "Input file is not a valid PDF document." (error 31)
+# @KA:solution The validator cannot read the file: it is not a PDF or it is damaged so much that it cannot be opened.
+# The report is written anyway and says that the file could not be parsed. Open and save the file again in a PDF editor
+# and run the action again.
+# @KA:problem "Input file is password-protected." (error 32)
+# @KA:solution The PDF needs a password to open, so the validator cannot read it. Remove the password and run the action
+# again. A PDF with permissions only (no password to open) is checked normally.
+# @KA:param output_html
+# @KA:desc Where the report is saved, a file with the `.html` extension. The folder must already exist; an existing file
+# with the same name is overwritten. Both are checked before the validation.
+# @KA:problem "Output file must be HTML document." (error 12)
+# @KA:solution Select an output file with the `.html` extension.
+# @KA:problem "Output folder does not exist." (error 13)
+# @KA:solution Create the folder shown in the message or select another output file.
+# @KA:param profile
+# @KA:desc PDF version whose rules are checked. Autodetect (default) takes the higher of the versions in the file header
+# and in the document catalog and checks a PDF 1.0 to 1.4 with the PDF 1.4 rules, a PDF 1.5 to 1.7 with the PDF 1.7
+# rules and a PDF 2.0 with the PDF 2.0 rules. PDF 1.0 to PDF 2.0 check the rules of exactly that version, whatever the
+# document says. The profile used is shown at the top of the report.
+# @KA:problem The report shows another profile than the PDF version of the document, for example PDF 1.7 for a PDF 1.5.
+# @KA:solution Autodetect checks with the rules of PDF 1.4, 1.7 or 2.0 only. To check with the rules of the exact
+# version, select it in **Profile**.
+# @KA:problem The report lists entries that "appear in later pdf versions" or "shall not contain" a key.
+# @KA:solution The document uses features of a newer PDF version than it declares. Check it with the profile of the
+# newer version, or raise the PDF version of the document (for example with the Set PDF Version action) and check it
+# again.
+# @KA:problem A document checked with the PDF 2.0 profile has many more deviations.
+# @KA:solution PDF 2.0 removed or deprecated many keys of PDF 1.x. Check the document with Autodetect or with the PDF
+# version it is written for.
+# @KA:logic Result of the validation
+# @KA:desc The action ends with exit code 0 when the PDF has no deviation and with 1 when the report lists deviations;
+# both are a normal result and the report is saved. The log says "PDF document is compliant with the Arlington PDF
+# Model." or "... is not compliant ... See the report for details.". The validation takes a few seconds.
+# @KA:logic Reading the report
+# @KA:desc The report shows the file, the profile and the number of deviations. Every failed rule shows the
+# specification and clause (the object type, for example FontDescriptorTrueType), a description of the rule, the number
+# of occurrences and for every occurrence the path from the file trailer to the object, including its object number (for
+# example `32 0 obj`), so you can find it in a PDF object browser. A deviation means the file does not follow the PDF
+# specification; many readers still display such files, but other tools may fail or behave differently.
+# @KA:problem "Validation failed." (error 30)
+# @KA:solution The validator stopped with an unexpected error, for example it ran out of memory on a very large file.
+# The log shows the validator messages and its exit code. Run the action again; if it fails again, send the log to PDFix
+# support.
+# @KA:problem "Failed to run the program:" (error 2)
+# @KA:solution An unexpected error happened in the action. Send the log to PDFix support.
+# @KA:action pdfix_validate_pdf_grammar_to_xml_arlington
+# @KA:desc Checks the syntax and structure of a PDF against the Arlington PDF Model, the machine-readable definition of
+# all PDF objects of ISO 32000 (PDF 1.0 to 2.0) by the PDF Association: which dictionaries, keys and values are allowed,
+# required and of which type in the PDF version. The validator of veraPDF writes every deviation to a report saved as an
+# XML file. The PDF itself is not changed.
+# @KA:context Use it to find out whether a PDF is technically correct for its PDF version, for example when other tools
+# cannot process it or before you archive or deliver it. It does not check accessibility (PDF/UA) or archiving (PDF/A);
+# use the veraPDF validation actions for these. Runs locally in Docker and nothing leaves your computer; the first run
+# downloads the image and takes longer. A PDFix license is not needed.
+# @KA:param input_pdf
+# @KA:desc PDF document to check. It is only read, never changed.
+# @KA:problem "Input file must be an existing PDF document." (error 14)
+# @KA:solution The file shown in the message was not found or does not have the `.pdf` extension. Select an existing PDF
+# file.
+# @KA:problem "Input file is not a valid PDF document." (error 31)
+# @KA:solution The validator cannot read the file: it is not a PDF or it is damaged so much that it cannot be opened.
+# The report is written anyway and says that the file could not be parsed. Open and save the file again in a PDF editor
+# and run the action again.
+# @KA:problem "Input file is password-protected." (error 32)
+# @KA:solution The PDF needs a password to open, so the validator cannot read it. Remove the password and run the action
+# again. A PDF with permissions only (no password to open) is checked normally.
+# @KA:param output_xml
+# @KA:desc Where the report is saved, a file with the `.xml` extension. The folder must already exist; an existing file
+# with the same name is overwritten. Both are checked before the validation.
+# @KA:problem "Output file must be XML document." (error 11)
+# @KA:solution Select an output file with the `.xml` extension.
+# @KA:problem "Output folder does not exist." (error 13)
+# @KA:solution Create the folder shown in the message or select another output file.
+# @KA:param profile
+# @KA:desc PDF version whose rules are checked. Autodetect (default) takes the higher of the versions in the file header
+# and in the document catalog and checks a PDF 1.0 to 1.4 with the PDF 1.4 rules, a PDF 1.5 to 1.7 with the PDF 1.7
+# rules and a PDF 2.0 with the PDF 2.0 rules. PDF 1.0 to PDF 2.0 check the rules of exactly that version, whatever the
+# document says. The profile used is shown at the top of the report.
+# @KA:problem The report shows another profile than the PDF version of the document, for example PDF 1.7 for a PDF 1.5.
+# @KA:solution Autodetect checks with the rules of PDF 1.4, 1.7 or 2.0 only. To check with the rules of the exact
+# version, select it in **Profile**.
+# @KA:problem The report lists entries that "appear in later pdf versions" or "shall not contain" a key.
+# @KA:solution The document uses features of a newer PDF version than it declares. Check it with the profile of the
+# newer version, or raise the PDF version of the document (for example with the Set PDF Version action) and check it
+# again.
+# @KA:problem A document checked with the PDF 2.0 profile has many more deviations.
+# @KA:solution PDF 2.0 removed or deprecated many keys of PDF 1.x. Check the document with Autodetect or with the PDF
+# version it is written for.
+# @KA:logic Result of the validation
+# @KA:desc The action ends with exit code 0 when the PDF has no deviation and with 1 when the report lists deviations;
+# both are a normal result and the report is saved. The log says "PDF document is compliant with the Arlington PDF
+# Model." or "... is not compliant ... See the report for details.". The validation takes a few seconds.
+# @KA:logic Reading the report
+# @KA:desc The report shows the file, the profile and the number of deviations. Every failed rule shows the
+# specification and clause (the object type, for example FontDescriptorTrueType), a description of the rule, the number
+# of occurrences and for every occurrence the path from the file trailer to the object, including its object number (for
+# example `32 0 obj`), so you can find it in a PDF object browser. A deviation means the file does not follow the PDF
+# specification; many readers still display such files, but other tools may fail or behave differently.
+# @KA:problem "Validation failed." (error 30)
+# @KA:solution The validator stopped with an unexpected error, for example it ran out of memory on a very large file.
+# The log shows the validator messages and its exit code. Run the action again; if it fails again, send the log to PDFix
+# support.
+# @KA:problem "Failed to run the program:" (error 2)
+# @KA:solution An unexpected error happened in the action. Send the log to PDFix support.
 def run_validation_subcommand(args) -> None:
     check_output_file(args.output, args.format)
     check_input_file(args.input)
