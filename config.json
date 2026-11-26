@@ -18,7 +18,7 @@
                 0,
                 1
             ],
-            "program": "docker run -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format html --profile \"${profile}\" --input \"/data/${input_pdf}\" --output \"/data/${output_html}\"",
+            "program": "docker run -v \"${working_directory}:/data\" -w /data --rm pdfix/validate-pdf-arlington:latest validate --format html --profile \"${profile}\" --input \"/data/${input_pdf}\" --output \"/data/${output_html}\"",
             "args": [
                 {
                     "name": "input_pdf",
@@ -112,7 +112,7 @@
                 0,
                 1
             ],
-            "program": "docker run -v \"${working_directory}:/data\" --rm pdfix/validate-pdf-arlington:latest validate --format xml --profile \"${profile}\" --input \"/data/${input_pdf}\" --output \"/data/${output_xml}\"",
+            "program": "docker run -v \"${working_directory}:/data\" -w /data --rm pdfix/validate-pdf-arlington:latest validate --format xml --profile \"${profile}\" --input \"/data/${input_pdf}\" --output \"/data/${output_xml}\"",
             "args": [
                 {
                     "name": "input_pdf",
