@@ -19,6 +19,8 @@ from exceptions import (
     ArgumentOutputNotHtmlException,
     ArgumentOutputNotXmlException,
     ExpectedException,
+    InputEncryptedException,
+    InputNotValidPdfException,
     ValidationFailed,
 )
 from image_update import DockerImageContainerUpdateChecker
@@ -27,6 +29,10 @@ from logger import get_logger
 logger: logging.Logger = get_logger("app_logger")
 
 DEFAULT_PROFILE: str = "auto"
+
+# Exit codes of the Arlington jar (veraPDF CliConstants.ExitCodes)
+JAR_EXIT_FAILED_PARSING: int = 7
+JAR_EXIT_ENCRYPTED: int = 8
 
 # CLI ids passed to the Arlington jar as --profile. Desktop labels are the matching
 # config.json "set" entries. Keep the two lists in sync.
@@ -203,6 +209,10 @@ def run_validation(
             logger.warning(line)
 
     # arlington returns 0 (no validation errors) or 1 (some validation errors)
+    if returncode == JAR_EXIT_FAILED_PARSING:
+        raise InputNotValidPdfException(input_file)
+    if returncode == JAR_EXIT_ENCRYPTED:
+        raise InputEncryptedException(input_file)
     if returncode > 1:
         logger.error(f"Validation exited with code {returncode}")
         raise ValidationFailed()
