@@ -61,6 +61,7 @@ Notes:
 - For `--format xml` (the default), `--output` is required and must end with `.xml`.
 - For `--format html`, `--output` is required and must end with `.html`.
 - Exit code 0 means the PDF is compliant, 1 means it is not compliant (see the report). Other codes are errors listed in `config.json`.
+- Autodetect (`auto`) takes the higher of the PDF versions in the file header and in the document catalog and checks PDF 1.0–1.4 with the PDF 1.4 rules, PDF 1.5–1.7 with the PDF 1.7 rules and PDF 2.0 with the PDF 2.0 rules. Select a profile to check the rules of an exact version.
 - Omit `--profile` and the flag is not passed to the Arlington jar.
 - PDFix Desktop always passes `--profile`. Autodetect is the default, so a Desktop run sends at least `--profile auto`.
 
