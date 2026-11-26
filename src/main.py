@@ -1,9 +1,11 @@
 import argparse
+import logging
 import os
 import subprocess
 import sys
 import threading
-import traceback
+import time
+from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
@@ -21,6 +23,9 @@ from exceptions import (
     ValidationFailed,
 )
 from image_update import DockerImageContainerUpdateChecker
+from logger import get_logger
+
+logger: logging.Logger = get_logger("app_logger")
 
 DEFAULT_PROFILE: str = "auto"
 
@@ -149,50 +154,50 @@ def run_validation(
     with tqdm(total=100) as progress_bar:
         progress_bar.set_description("Validating")
 
-        try:
-            java_program_path: str = Path(__file__).parent.parent.joinpath("res/cli-arlington-1.30.3.jar").as_posix()
-            command: list[str] = [
-                "java",
-                "-jar",
-                java_program_path,
-                "--maxfailuresdisplayed",
-                str(maxfailuresdisplayed),
-                "--format",
-                format,
-            ]
-            if profile and profile != DEFAULT_PROFILE:
-                command.append("--flavour")
-                command.append(profile)
+        java_program_path: str = Path(__file__).parent.parent.joinpath("res/cli-arlington-1.30.3.jar").as_posix()
+        command: list[str] = [
+            "java",
+            "-jar",
+            java_program_path,
+            "--maxfailuresdisplayed",
+            str(maxfailuresdisplayed),
+            "--format",
+            format,
+        ]
+        if profile and profile != DEFAULT_PROFILE:
+            command.append("--flavour")
+            command.append(profile)
 
-            command_to_run: str = " ".join(command)
-            command_to_run += f' "{input_file}"'
+        command_to_run: str = " ".join(command)
+        command_to_run += f' "{input_file}"'
 
-            returncode, stdout, stderr = run_subprocess(command_to_run)
+        returncode, stdout, stderr = run_subprocess(command_to_run)
 
-            if output_file:
-                with open(output_file, "w+", encoding="utf-8") as out:
-                    out.write(stdout)
-            else:
-                print(stdout)
+        if output_file:
+            with open(output_file, "w+", encoding="utf-8") as out:
+                out.write(stdout)
+        else:
+            print(stdout)
 
-            if stderr:
-                print(stderr, file=sys.stderr)
+        progress_bar.n = 100
+        progress_bar.set_description("Done")
+        progress_bar.refresh()
 
-            progress_bar.n = 100
-            progress_bar.set_description("Done")
-            progress_bar.refresh()
+    # Log only after the progress bar is closed, so log lines are not glued to it
+    for line in stderr.splitlines():
+        if line.strip():
+            logger.warning(line)
 
-            # arlington returns 0 (no validation errors) or 1 (some validation errors)
-            if returncode > 1:
-                print(f"Validation exited with code {returncode}", file=sys.stderr)
-                raise ValidationFailed()
+    # arlington returns 0 (no validation errors) or 1 (some validation errors)
+    if returncode > 1:
+        logger.error(f"Validation exited with code {returncode}")
+        raise ValidationFailed()
 
-            return returncode
-
-        except Exception as e:
-            print(traceback.format_exc(), file=sys.stderr)
-            print(f"Unexpected exception: {e}", file=sys.stderr)
-            raise ValidationFailed()
+    if returncode == 0:
+        logger.info("PDF document is compliant with the Arlington PDF Model.")
+    else:
+        logger.info("PDF document is not compliant with the Arlington PDF Model. See the report for details.")
+    return returncode
 
 
 def run_subprocess(command: str) -> tuple[int, str, str]:
@@ -258,17 +263,17 @@ def main():
     try:
         args = parser.parse_args()
     except ExpectedException as e:
-        print(e.message, file=sys.stderr)
+        logger.error(e.message)
         sys.exit(e.error_code)
     except SystemExit as e:
         if e.code != 0:
-            print(MESSAGE_ARG_GENERAL, file=sys.stderr)
+            logger.error(MESSAGE_ARG_GENERAL)
             sys.exit(EC_ARG_GENERAL)
         # This happens when --help is used, exit gracefully
         sys.exit(0)
     except Exception as e:
-        print(traceback.format_exc(), file=sys.stderr)
-        print(f"Failed to run the program: {e}", file=sys.stderr)
+        logger.error("Failed to run the program:")
+        logger.exception(e)
         sys.exit(2)
 
     if hasattr(args, "func"):
@@ -278,17 +283,27 @@ def main():
         update_thread = threading.Thread(target=update_checker.check_for_image_updates)
         update_thread.start()
 
+        # Measure the time it takes to process the input
+        start_time: float = time.time()
+        current_time: str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        logger.info(f"Processing started at: {current_time}")
+
         # Run subcommand
         try:
             args.func(args)
         except ExpectedException as e:
-            print(e.message, file=sys.stderr)
+            logger.error(e.message)
             sys.exit(e.error_code)
         except Exception as e:
-            print(traceback.format_exc(), file=sys.stderr)
-            print(f"Failed to run the program: {e}", file=sys.stderr)
+            # not expected exception -> print stack trace and what exception happened
+            logger.error("Failed to run the program:")
+            logger.exception(e)
             sys.exit(2)
         finally:
+            elapsed_time: float = time.time() - start_time
+            current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            logger.info(f"Processing finished at: {current_time}. Elapsed time: {elapsed_time:.2f} seconds")
+
             # Make sure to let update thread finish before exiting
             update_thread.join()
     else:
