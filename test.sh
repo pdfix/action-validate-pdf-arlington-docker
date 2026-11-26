@@ -24,7 +24,6 @@ EXIT_STATUS=0
 DOCKER_IMAGE="validate-pdf-arlington:test"
 PLATFORM="--platform linux/amd64"
 TEMPORARY_DIRECTORY=".test"
-OPENAI_API_KEY=$1
 
 info "Building docker image..."
 docker build $PLATFORM -t $DOCKER_IMAGE .
