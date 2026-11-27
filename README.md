@@ -89,7 +89,7 @@ Notes:
 | 14 | Input file is not an existing PDF |
 | 30 | Validation failed (the validator ended with another error, the log shows its code) |
 | 31 | Input file is not a valid PDF document (cannot be parsed) |
-| 32 | Input file is password-protected |
+| 32 | PDF is password-protected (remove the password, or pass it with `--password`) |
 
 ## Examples
 
