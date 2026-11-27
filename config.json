@@ -90,8 +90,8 @@
             "errors": {
                 "2": "Failed to run the program.",
                 "10": "Failed to parse arguments. Please check the usage and try again.",
-                "11": "Output file must be XML document.",
-                "12": "Output file must be HTML document.",
+                "11": "Output file must be XML file.",
+                "12": "Output file must be HTML file.",
                 "13": "Output folder does not exist.",
                 "14": "Input file must be an existing PDF document.",
                 "30": "Validation failed.",
@@ -188,8 +188,8 @@
             "errors": {
                 "2": "Failed to run the program.",
                 "10": "Failed to parse arguments. Please check the usage and try again.",
-                "11": "Output file must be XML document.",
-                "12": "Output file must be HTML document.",
+                "11": "Output file must be XML file.",
+                "12": "Output file must be HTML file.",
                 "13": "Output folder does not exist.",
                 "14": "Input file must be an existing PDF document.",
                 "30": "Validation failed.",

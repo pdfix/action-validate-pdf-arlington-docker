@@ -172,7 +172,7 @@ def check_input_file(input_path: str) -> None:
 # @KA:param output_html
 # @KA:desc Where the report is saved, a file with the `.html` extension. The folder must already exist; an existing file
 # with the same name is overwritten. Both are checked before the validation.
-# @KA:problem "Output file must be HTML document." (error 12)
+# @KA:problem "Output file must be HTML file." (error 12)
 # @KA:solution Select an output file with the `.html` extension.
 # @KA:problem "Output folder does not exist." (error 13)
 # @KA:solution Create the folder shown in the message or select another output file.
@@ -232,7 +232,7 @@ def check_input_file(input_path: str) -> None:
 # @KA:param output_xml
 # @KA:desc Where the report is saved, a file with the `.xml` extension. The folder must already exist; an existing file
 # with the same name is overwritten. Both are checked before the validation.
-# @KA:problem "Output file must be XML document." (error 11)
+# @KA:problem "Output file must be XML file." (error 11)
 # @KA:solution Select an output file with the `.xml` extension.
 # @KA:problem "Output folder does not exist." (error 13)
 # @KA:solution Create the folder shown in the message or select another output file.

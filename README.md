@@ -83,8 +83,8 @@ Notes:
 | 1 | The PDF is not compliant; see the report |
 | 2 | Unexpected error (`Failed to run the program:` + traceback) |
 | 10 | Invalid arguments or no command |
-| 11 | Output file must be an XML document (`--format xml`) |
-| 12 | Output file must be an HTML document (`--format html`) |
+| 11 | Output file must be an XML file (`--format xml`) |
+| 12 | Output file must be an HTML file (`--format html`) |
 | 13 | Output folder does not exist |
 | 14 | Input file is not an existing PDF |
 | 30 | Validation failed (the validator ended with another error, the log shows its code) |

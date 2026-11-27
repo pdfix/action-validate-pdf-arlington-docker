@@ -9,8 +9,8 @@ EC_INPUT_NOT_VALID_PDF: int = 31
 EC_INPUT_ENCRYPTED: int = 32
 
 MESSAGE_ARG_GENERAL: str = "Failed to parse arguments. Please check the usage and try again."
-MESSAGE_ARG_OUTPUT_NOT_XML: str = "Output file must be XML document."
-MESSAGE_ARG_OUTPUT_NOT_HTML: str = "Output file must be HTML document."
+MESSAGE_ARG_OUTPUT_NOT_XML: str = "Output file must be XML file."
+MESSAGE_ARG_OUTPUT_NOT_HTML: str = "Output file must be HTML file."
 MESSAGE_ARG_OUTPUT_FOLDER_NOT_EXISTS: str = "Output folder does not exist."
 MESSAGE_ARG_INPUT_NOT_PDF: str = "Input file must be an existing PDF document."
 
