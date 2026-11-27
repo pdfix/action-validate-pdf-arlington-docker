@@ -81,6 +81,10 @@ def set_arguments(
                 parser.add_argument("--maxfailuresdisplayed", type=int, default=-1, help="Max failures displayed")
             case "output":
                 parser.add_argument("--output", "-o", type=str, help=output_help)
+            case "password":
+                parser.add_argument(
+                    "--password", type=str, default="", help="Password to open a password-protected PDF document."
+                )
             case "profile":
                 parser.add_argument(
                     "--profile",
@@ -161,9 +165,10 @@ def check_input_file(input_path: str) -> None:
 # @KA:solution The validator cannot read the file: it is not a PDF or it is damaged so much that it cannot be opened.
 # The report is written anyway and says that the file could not be parsed. Open and save the file again in a PDF editor
 # and run the action again.
-# @KA:problem "Input file is password-protected." (error 32)
-# @KA:solution The PDF needs a password to open, so the validator cannot read it. Remove the password and run the action
-# again. A PDF with permissions only (no password to open) is checked normally.
+# @KA:problem "PDF document is password-protected. Remove the password with another action first." (error 32)
+# @KA:solution The PDF needs a password to open, so the validator cannot read it. Remove the password with another
+# action or in a PDF editor and run the action again; from the command line, pass it with `--password`. A PDF with
+# permissions only (no password to open) is checked normally.
 # @KA:param output_html
 # @KA:desc Where the report is saved, a file with the `.html` extension. The folder must already exist; an existing file
 # with the same name is overwritten. Both are checked before the validation.
@@ -220,9 +225,10 @@ def check_input_file(input_path: str) -> None:
 # @KA:solution The validator cannot read the file: it is not a PDF or it is damaged so much that it cannot be opened.
 # The report is written anyway and says that the file could not be parsed. Open and save the file again in a PDF editor
 # and run the action again.
-# @KA:problem "Input file is password-protected." (error 32)
-# @KA:solution The PDF needs a password to open, so the validator cannot read it. Remove the password and run the action
-# again. A PDF with permissions only (no password to open) is checked normally.
+# @KA:problem "PDF document is password-protected. Remove the password with another action first." (error 32)
+# @KA:solution The PDF needs a password to open, so the validator cannot read it. Remove the password with another
+# action or in a PDF editor and run the action again; from the command line, pass it with `--password`. A PDF with
+# permissions only (no password to open) is checked normally.
 # @KA:param output_xml
 # @KA:desc Where the report is saved, a file with the `.xml` extension. The folder must already exist; an existing file
 # with the same name is overwritten. Both are checked before the validation.
@@ -265,7 +271,9 @@ def run_validation_subcommand(args) -> None:
     check_output_file(args.output, args.format)
     check_input_file(args.input)
 
-    returncode: int = run_validation(args.input, args.output, args.maxfailuresdisplayed, args.format, args.profile)
+    returncode: int = run_validation(
+        args.input, args.output, args.maxfailuresdisplayed, args.format, args.profile, args.password
+    )
     sys.exit(returncode)
 
 
@@ -275,6 +283,7 @@ def run_validation(
     maxfailuresdisplayed: int,
     format: str,
     profile: Optional[str],
+    password: str = "",
 ) -> int:
     """
     Runs validation using Arlington java program in subprocess.
@@ -285,6 +294,7 @@ def run_validation(
         maxfailuresdisplayed (str): Max failures displayed
         format (str): Format of output like json, xml, ...
         profile (Optional[str]): Arlington profile id, for example auto or arlington1.7.
+        password (str): Password of the PDF document, empty when it has none.
 
     Return:
         Return code of validation process.
@@ -305,6 +315,10 @@ def run_validation(
         if profile and profile != DEFAULT_PROFILE:
             command.append("--flavour")
             command.append(profile)
+
+        if password:
+            command.append("--password")
+            command.append(password)
 
         command.append(input_file)
 
@@ -392,7 +406,7 @@ def main():
     )
     set_arguments(
         validate_subparser,
-        ["input", "output", "maxfailuresdisplayed", "format", "profile"],
+        ["input", "output", "password", "maxfailuresdisplayed", "format", "profile"],
         "The output validation file",
     )
     validate_subparser.set_defaults(func=run_validation_subcommand)

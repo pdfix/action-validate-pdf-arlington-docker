@@ -96,7 +96,7 @@
                 "14": "Input file must be an existing PDF document.",
                 "30": "Validation failed.",
                 "31": "Input file is not a valid PDF document.",
-                "32": "Input file is password-protected."
+                "32": "PDF document is password-protected. Remove the password with another action first."
             },
             "progress_regex": "^(?<text>[^:]+):\\s+(?<progress>\\d{1,3})%"
         },
@@ -194,7 +194,7 @@
                 "14": "Input file must be an existing PDF document.",
                 "30": "Validation failed.",
                 "31": "Input file is not a valid PDF document.",
-                "32": "Input file is password-protected."
+                "32": "PDF document is password-protected. Remove the password with another action first."
             },
             "progress_regex": "^(?<text>[^:]+):\\s+(?<progress>\\d{1,3})%"
         }

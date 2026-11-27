@@ -16,7 +16,7 @@ MESSAGE_ARG_INPUT_NOT_PDF: str = "Input file must be an existing PDF document."
 
 MESSAGE_VALIDATION_FAILED: str = "Validation failed."
 MESSAGE_INPUT_NOT_VALID_PDF: str = "Input file is not a valid PDF document."
-MESSAGE_INPUT_ENCRYPTED: str = "Input file is password-protected."
+MESSAGE_INPUT_ENCRYPTED: str = "PDF document is password-protected. Remove the password with another action first."
 
 
 class ExpectedException(BaseException):

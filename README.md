@@ -39,6 +39,7 @@ docker run --rm -v "$(pwd)":/data -w /data pdfix/validate-pdf-arlington:latest <
 |---|:---:|---|---|
 | `--input`, `-i` | yes | Path to an existing `.pdf` file | Input PDF |
 | `--output`, `-o` | for `xml` and `html` | Path for report file in an existing folder; omit to print `raw`, `text` or `json` to stdout | Output file |
+| `--password` | no | String (default: empty) | Password to open a password-protected PDF |
 | `--format` | no | One of: `raw`, `xml`, `html`, `text`, `json` (default: `xml`) | Report format |
 | `--maxfailuresdisplayed` | no | Integer (default **-1**) | Max failures shown |
 | `--profile` | no | One of the profile ids below | Arlington grammar profile |
