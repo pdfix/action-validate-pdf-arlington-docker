@@ -55,20 +55,20 @@ else
 fi
 
 info "Test #03: Run validate pdf->html"
-docker run --rm $PLATFORM -v $(pwd):/data -w /data $DOCKER_IMAGE validate --format html -i example/air_quality.pdf -o $TEMPORARY_DIRECTORY/air_quality.html > /dev/null
+docker run --rm $PLATFORM -v $(pwd):/data -w /data $DOCKER_IMAGE validate --format html -i examples/air_quality.pdf -o $TEMPORARY_DIRECTORY/air_quality.html > /dev/null
 if [ -f "$(pwd)/$TEMPORARY_DIRECTORY/air_quality.html" ]; then
     success "passed"
 else
-    error "validate pdf->html failed on example/air_quality.pdf"
+    error "validate pdf->html failed on examples/air_quality.pdf"
     EXIT_STATUS=1
 fi
 
 info "Test #04: Run validate pdf->xml"
-docker run --rm $PLATFORM -v $(pwd):/data -w /data $DOCKER_IMAGE validate --format xml -i example/air_quality.pdf -o $TEMPORARY_DIRECTORY/air_quality.xml > /dev/null
+docker run --rm $PLATFORM -v $(pwd):/data -w /data $DOCKER_IMAGE validate --format xml -i examples/air_quality.pdf -o $TEMPORARY_DIRECTORY/air_quality.xml > /dev/null
 if [ -f "$(pwd)/$TEMPORARY_DIRECTORY/air_quality.xml" ]; then
     success "passed"
 else
-    error "validate pdf->xml failed on example/air_quality.pdf"
+    error "validate pdf->xml failed on examples/air_quality.pdf"
     EXIT_STATUS=1
 fi
 
